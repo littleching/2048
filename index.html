@@ -5,9 +5,9 @@
 let N = [
 // 0  1  2  3
   [2, 0, 0, 0], // 0  N[0][0], N[0][1], N[0][2], N[0][3]
-  [2, 0, 2, 0], // 1  N[1][0], N[1][1], N[1][2], N[1][3]
-  [0, 4, 4, 0], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
-  [0, 0, 0, 8], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
+  [0, 0, 0, 0], // 1  N[1][0], N[1][1], N[1][2], N[1][3]
+  [0, 2, 0, 0], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
+  [0, 0, 0, 4], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
 ]
 function print () {
   let output = ''
@@ -49,9 +49,33 @@ window.onkeydown = function (e) {
     } 
     print() 
   } else if (e.code === 'ArrowLeft') {
-    // homework2
+    for (let y = 0; y < 4; y = y + 1) {
+      let target = null
+      for (let x = 0; x < 4; x = x + 1) {
+        let n = N[y][x]
+        if (n === 0 && target === null) target = x
+        if (n > 0 && target !== null) {
+          N[y][target] = N[y][x]
+          N[y][x] = 0
+          target = target + 1
+        }
+      }
+    }
+    print()
   } else if (e.code === 'ArrowRight') {
-    // homework3
+    for (let y = 0; y < 4; y = y + 1) {
+      let target = null
+      for (let x = 3; x >= 0; x = x - 1) {
+        let n = N[y][x]
+        if (n === 0 && target === null) target = x
+        if (n > 0 && target !== null) {
+          N[y][target] = N[y][x]
+          N[y][x] = 0
+          target = target - 1
+        }
+      }
+    } 
+    print() 
   }
 }
     </script>
