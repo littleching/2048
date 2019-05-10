@@ -6,10 +6,10 @@ let N = [
 // column: 直排
 // row: 橫排  
 // 0  1  2  3
-  [2, 4, 2, 8], // 0  N[0][0], N[0][1], N[0][2], N[0][3]
-  [4, 8, 4, 2], // 1  N[1][0], N[1][1], N[1][2], N[1][3]
-  [8, 2, 16, 4], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
-  [2, 4, 8, 2], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
+  [0, 4, 2, 8], // 0  N[0][0], N[0][1], N[0][2], N[0][3]
+  [4, 8, 0, 2], // 1  N[1][0], N[1][1], N[1][2], N[1][3]
+  [8, 2, 0, 4], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
+  [2, 0, 8, 2], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
 ]
 function print () {
   let output = ''
@@ -135,6 +135,8 @@ function isFull () {
 }
 
 console.log('isMergeable():', isMergeable())
+random()
+print()
 
 function isMergeable () {
   for (let r = 0; r < 4; r = r + 1){
@@ -152,6 +154,38 @@ function isMergeable () {
     }
   }
   return false
+}
+
+function isgameOver(){
+  
+}
+
+function random2or4 () {
+  // 隨機決定要放 2 還是 4
+  if (Math.random() >= 0.5) {
+    return 2
+  } else {
+    return 4
+  }
+}
+function random () {
+  // 先把空的取出來
+  let rows = []
+  let columns = []
+  for (let r = 0; r < 4; r = r + 1) {
+    for (let c = 0; c < 4; c = c + 1) {
+      if (N[r][c] === 0) {
+        rows.push(r)
+        columns.push(c)
+      }
+    }
+  }
+  // 隨機選一個
+  let i = Math.floor(Math.random() * rows.length)
+  let r = rows[i]
+  let c = columns[i]
+  // 放上去！
+  N[r][c] = random2or4()
 }
 
 window.onkeydown = function (e) {
@@ -185,32 +219,17 @@ window.onkeydown = function (e) {
 </html>
 
 
-function gameover () {
-  for (let c = 0; c < 4; c = c + 1) {
-    for (let r = 0; r < 4; r = r + 1) {
-      if (N[r][c] === N[r + 1][c]) 
+function isMergeable () {
+  // 寫在一起
+  for (let r = 0; r < 4; r = r + 1) {
+    for (let c = 0; c < 4; c = c + 1) {
+      // 檢查左右相鄰是否有值且相同
+      if (c + 1 < 4 && N[r][c] > 0 && N[r][c] === N[r][c + 1]) {
+        return true
+      }
+      // 檢查上下相鄰是否有值且相同
+      if (r + 1 < 4 && N[r][c] > 0 && N[r][c] === N[r + 1][c]) {
+        return true
+      }
     }
   }
-}
-
-function isFull () {
-  for (let r = 0; r < 4; r = r + 1)
-  for (let c = 0; c < 4; c = c + 1)
-    if (N[r][c] === 0) {
-      return false
-    }
-    else {
-      return true
-    }
-}
-
-function isMergeable () {
-  for (let r = 0; r < 4; r = r + 1)
-  for (let c = 0; c < 4; c = c + 1) 
-    if (N[r][c] === N[r][c+1] && N[r][c] === N[r+1][c] ){
-      return true
-    }
-    else {
-      return false
-    }
-}
