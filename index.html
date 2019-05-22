@@ -1,7 +1,51 @@
 <!doctype html>
 <html>
   <head>
+    <style>
+      body {
+        margin: 0;
+        padding: 1.5vmin;
+        background-color: rgb(187, 173, 160);
+      }
+      .board {
+        margin: 0;
+        padding: 0;
+        display: block;
+        width: 97vmin;
+        height: 97vmin;
+      }
+      .cell {
+        float: left;
+        width: 21.25vmin;
+        height: 21.25vmin;
+        background-color: #ddd;
+        margin: 1.5vmin;
+        border-radius: 1vmin;
+        /* border: 1px solid black; */
+        line-height: 21.25vmin;
+        text-align: center;
+        color: rgb(119, 110, 101);
+        background-color: rgba(238, 228, 218, 0.35);
+        font-family: monospace;
+        font-size: 5vmin;
+        font-weight: 900;
+      }
+    </style>
     <script>
+let colors = {
+  2: 'rgb(238, 228, 218)',
+  4: 'rgb(237, 224, 200)',
+  8: 'rgb(242, 177, 121)',
+  16: 'rgb(245, 149, 99)',
+  32: 'rgb(246, 124, 95)',
+  64: 'rgb(246, 94, 59)',
+  128: 'rgb(237, 207, 114)',
+  256: 'rgb(237, 204, 97)',
+  512: 'rgb(237, 200, 80)',
+  1024: 'rgb(237, 197, 63)',
+  2048: 'rgb(237, 194, 46)',
+}
+// box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
 let N = [
 // column: 直排
 // row: 橫排  
@@ -11,7 +55,15 @@ let N = [
   [0, 0, 0, 0], // 2  N[2][0], N[2][1], N[2][2], N[2][3]
   [0, 0, 0, 0], // 3  N[3][0], N[3][1], N[3][2], N[3][3]
 ]
-
+let inited = false
+function init () {
+  if (!inited) {
+    random(true)
+    random(true)
+    print()
+    inited = true
+  }
+}
 print()
 console.log('isGoableLeft():', isGoableLeft())
 
@@ -23,6 +75,21 @@ function padNumber (n) {
   return `   ${n}`
 }
 function print () {
+  let cells = document.querySelectorAll('div.cell')
+  for (let i = 0; i < cells.length; i = i + 1) {
+    let r = Math.floor(i / 4)
+    let c = i % 4
+    // console.log(cells[i].textContent)
+    if (N[r][c] > 0) {
+      cells[i].innerHTML = N[r][c]
+      cells[i].style.backgroundColor = colors[N[r][c]]
+    } else {
+      cells[i].innerHTML = ''
+      cells[i].style.backgroundColor = 'rgba(238, 228, 218, 0.35)'
+    }
+  }
+  return
+
   let lines = []
   for (const ns of N) {
     let numbers = []
@@ -294,22 +361,23 @@ window.onkeydown = function (e) {
     </script>
   </head>
   <body>
-    2048
+    <div class="board">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
   </body>
 </html>
-
-
-function isMergeable () {
-  // 寫在一起
-  for (let r = 0; r < 4; r = r + 1) {
-    for (let c = 0; c < 4; c = c + 1) {
-      // 檢查左右相鄰是否有值且相同
-      if (c + 1 < 4 && N[r][c] > 0 && N[r][c] === N[r][c + 1]) {
-        return true
-      }
-      // 檢查上下相鄰是否有值且相同
-      if (r + 1 < 4 && N[r][c] > 0 && N[r][c] === N[r + 1][c]) {
-        return true
-      }
-    }
-  }
