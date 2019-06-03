@@ -403,6 +403,7 @@ function go (check, move, merge) {
     if (!checkGameover()) {
       random(false)
       print()
+      checkGameover()
     }
   }
 }
